@@ -5,5 +5,5 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   server: { port: 3000 },
-  plugins: [tsConfigPaths(), tanstackStart(), tailwindcss()],
+  plugins: [tsConfigPaths(), tanstackStart({ target: "bun" }), tailwindcss()],
 });

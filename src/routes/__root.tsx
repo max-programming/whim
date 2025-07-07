@@ -38,6 +38,13 @@ export const Route = wrapCreateRootRouteWithSentry(
         href: appCss,
       },
     ],
+    scripts: [
+      {
+        defer: true,
+        src: import.meta.env.VITE_ANALYTICS_SCRIPT,
+        "data-website-id": import.meta.env.VITE_ANALYTICS_WEBSITE_ID,
+      },
+    ],
   }),
   component: RootComponent,
 });

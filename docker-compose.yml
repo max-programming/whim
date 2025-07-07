@@ -34,6 +34,31 @@ services:
     depends_on:
       - app
 
+  umami:
+    container_name: umami
+    image: docker.umami.is/umami-software/umami:postgresql-latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${UMAMI_DATABASE_URL}
+      APP_SECRET: ${UMAMI_APP_SECRET}
+
+  umami-db:
+    container_name: umami-db
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${UMAMI_DB_NAME}
+      POSTGRES_USER: ${UMAMI_DB_USER}
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    networks:
+      - whimnet
+
 volumes:
   caddy_data:
   caddy_config:
+  umami-db-data:
+
+networks:
+  whimnet:

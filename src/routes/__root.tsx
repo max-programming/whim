@@ -3,7 +3,6 @@ import type { QueryClient } from "@tanstack/react-query";
 import {
   Outlet,
   HeadContent,
-  Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
@@ -63,10 +62,7 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

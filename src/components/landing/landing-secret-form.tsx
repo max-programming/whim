@@ -150,7 +150,7 @@ export function LandingSecretForm() {
                     ) : (
                       <>
                         <Zap className="size-5" />
-                        Share This Whimm
+                        Share This Whim
                       </>
                     )}
                   </Button>

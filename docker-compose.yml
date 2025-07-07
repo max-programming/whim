@@ -41,6 +41,8 @@ services:
     environment:
       DATABASE_URL: ${UMAMI_DATABASE_URL}
       APP_SECRET: ${UMAMI_APP_SECRET}
+    ports:
+      - 3001:3000
 
   umami-db:
     container_name: umami-db

@@ -13,5 +13,12 @@ export const getStats = createServerFn({ method: "GET" }).handler(async () => {
     .where(eq(stats.id, 1))
     .limit(1);
 
+  if (!latestStats) {
+    return {
+      whimsCreated: 0,
+      secretsVanished: 0,
+    };
+  }
+
   return latestStats;
 });

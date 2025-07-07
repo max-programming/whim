@@ -6,9 +6,9 @@ export function LandingProcessFlow() {
     <div className="lg:pl-4">
       <Card className="shadow-sm border-2 border-slate-200 bg-slate-50/50 hover:border-indigo-200 transition-colors py-2">
         <CardContent className="py-2">
-          <div className="flex items-center justify-between text-xs text-slate-600">
+          <div className="flex items-center justify-center md:justify-start text-xs text-slate-600">
             <div className="text-lg font-medium text-slate-700 mb-1">
-              Share secrets on a whim:
+              Share secrets on a whim
             </div>
           </div>
           <div className="flex items-center justify-between md:justify-start gap-1.5 text-base text-slate-600">

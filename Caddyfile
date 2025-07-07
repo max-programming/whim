@@ -3,5 +3,5 @@ whim.day {
 }
 
 insights.whim.day {
-  reverse_proxy localhost:3001
+  reverse_proxy umami:3000
 }

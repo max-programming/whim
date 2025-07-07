@@ -11,7 +11,7 @@ export function LandingProcessFlow() {
               Share secrets on a whim:
             </div>
           </div>
-          <div className="flex items-center gap-1.5 text-base text-slate-600">
+          <div className="flex items-center justify-between md:justify-start gap-1.5 text-base text-slate-600">
             <div className="flex md:flex-row flex-col items-center gap-1.5">
               <Edit3 className="size-4" />
               <span>Write</span>

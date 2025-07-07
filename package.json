@@ -30,6 +30,7 @@
     "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@sentry/tanstackstart-react": "^9.35.0",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-form": "^1.12.4",
     "@tanstack/react-query": "^5.81.5",

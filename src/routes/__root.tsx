@@ -6,11 +6,14 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
+import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
 import appCss from "~/styles/app.css?url";
 
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-}>()({
+export const Route = wrapCreateRootRouteWithSentry(
+  createRootRouteWithContext<{
+    queryClient: QueryClient;
+  }>()
+)({
   head: () => ({
     meta: [
       {

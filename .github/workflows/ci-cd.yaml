@@ -1,0 +1,42 @@
+name: CI CD - Whim
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: CI - Whim Build
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+  deploy:
+    name: CD - Whim Deploy
+    runs-on: ubuntu-22.04
+    needs: build
+
+    steps:
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.VPS_KEY }}
+      
+      - name: SSH and Deploy
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd whim
+            git pull origin main
+            docker compose up --build -d
+          EOF

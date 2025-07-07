@@ -33,6 +33,7 @@ services:
 
     depends_on:
       - app
+      - umami
 
   umami:
     container_name: umami

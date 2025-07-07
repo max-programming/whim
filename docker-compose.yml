@@ -3,37 +3,34 @@ services:
     build: .
     container_name: whim-app
     restart: unless-stopped
-
     volumes:
       - ./db:/app/db # Database volume
-
     env_file:
       - .env
-
     ports:
       - 3000:3000
+    networks:
+      - whimnet
 
   caddy:
     image: caddy:alpine
     container_name: whim-caddy
     restart: unless-stopped
-
     cap_add:
       - NET_ADMIN
-
     ports:
       - 80:80
       - 443:443
       - 443:443/udp
-
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-
     depends_on:
       - app
       - umami
+    networks:
+      - whimnet
 
   umami:
     container_name: umami
@@ -44,6 +41,8 @@ services:
       APP_SECRET: ${UMAMI_APP_SECRET}
     ports:
       - 3001:3000
+    networks:
+      - whimnet
 
   umami-db:
     container_name: umami-db
@@ -65,3 +64,4 @@ volumes:
 
 networks:
   whimnet:
+    driver: bridge

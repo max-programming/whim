@@ -88,7 +88,7 @@ export function LandingSecretForm() {
     setCopiedStates({ otp: false, url: false });
   }
 
-  const isFormValid = message.trim();
+  const isFormValid = !!message.trim();
   const whimUrl = whimResult
     ? `${window.location.origin}/${whimResult.id}`
     : "";
@@ -150,7 +150,7 @@ export function LandingSecretForm() {
                     ) : (
                       <>
                         <Zap className="size-5" />
-                        Share This Whim
+                        Share This Whimm
                       </>
                     )}
                   </Button>

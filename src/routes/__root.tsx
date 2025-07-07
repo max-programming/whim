@@ -4,6 +4,8 @@ import {
   Outlet,
   HeadContent,
   createRootRouteWithContext,
+  DefaultGlobalNotFound,
+  Scripts,
 } from "@tanstack/react-router";
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
 import appCss from "~/styles/app.css?url";
@@ -37,15 +39,16 @@ export const Route = wrapCreateRootRouteWithSentry(
         href: appCss,
       },
     ],
-    scripts: [
-      {
-        defer: true,
-        src: import.meta.env.VITE_ANALYTICS_SCRIPT,
-        "data-website-id": import.meta.env.VITE_ANALYTICS_WEBSITE_ID,
-      },
-    ],
+    // scripts: [
+    //   {
+    //     defer: true,
+    //     src: import.meta.env.VITE_ANALYTICS_SCRIPT,
+    //     "data-website-id": import.meta.env.VITE_ANALYTICS_WEBSITE_ID,
+    //   },
+    // ],
   }),
   component: RootComponent,
+  notFoundComponent: DefaultGlobalNotFound,
 });
 
 function RootComponent() {
@@ -62,7 +65,10 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
       <head>
         <HeadContent />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Scripts />
+      </body>
     </html>
   );
 }

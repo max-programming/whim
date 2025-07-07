@@ -39,4 +39,5 @@ jobs:
             cd whim
             git pull origin main
             docker compose up --build -d
+            docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile
           EOF

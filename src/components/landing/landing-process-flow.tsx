@@ -12,22 +12,22 @@ export function LandingProcessFlow() {
             </div>
           </div>
           <div className="flex items-center gap-1.5 text-base text-slate-600">
-            <div className="flex items-center gap-1.5">
+            <div className="flex md:flex-row flex-col items-center gap-1.5">
               <Edit3 className="size-4" />
               <span>Write</span>
             </div>
             <ArrowRight className="size-4 text-slate-400" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex md:flex-row flex-col items-center gap-1.5">
               <Timer className="size-4" />
               <span>Time</span>
             </div>
             <ArrowRight className="size-4 text-slate-400" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex md:flex-row flex-col items-center gap-1.5">
               <Link2 className="size-4" />
               <span>Share</span>
             </div>
             <ArrowRight className="size-4 text-slate-400" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex md:flex-row flex-col items-center gap-1.5">
               <Zap className="size-4" />
               <span>Vanish</span>
             </div>

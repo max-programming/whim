@@ -2,6 +2,8 @@
 
 Whim is a simple and secure app for sharing secret messages anonymously. The messages are encrypted and are vanished after being read. No account required.
 
+You can try it out at [whim.day](https://whim.day)
+
 ## Running it locally
 
 ### Prerequisites
@@ -22,7 +24,7 @@ bun install
 ### Fill in the .env file
 
 ```bash
-cp .env.example .env
+cp .env.sample .env
 ```
 
 ### Run the migrations

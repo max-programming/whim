@@ -96,36 +96,36 @@ export function LandingSecretForm() {
   return (
     <div className="lg:pl-4">
       <TooltipProvider>
-        <Card className="border-2 border-slate-200 bg-slate-50 shadow-md hover:border-indigo-200 transition-colors">
+        <Card className="border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 shadow-md hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-xl text-slate-900">
+            <CardTitle className="text-xl text-slate-900 dark:text-slate-100">
               Create Your Secret Whim
             </CardTitle>
-            <CardDescription className="text-slate-500">
+            <CardDescription className="text-slate-500 dark:text-slate-400">
               Share on a whim, vanish without a trace
             </CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-5 px-6">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Your Secret
               </label>
               <Textarea
                 placeholder="Type your secret on a whim... API keys, passwords, private notes, or anything confidential"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                className="min-h-[120px] resize-none bg-white border-slate-200 focus:border-indigo-300 focus:ring-indigo-200 text-sm"
+                className="min-h-[120px] resize-none bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600 focus:border-indigo-300 dark:focus:border-indigo-500 focus:ring-indigo-200 dark:focus:ring-indigo-500/20 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                 disabled={isPending}
               />
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
               <div className="flex items-start gap-2">
-                <Eye className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-blue-800">
+                <Eye className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-blue-800 dark:text-blue-200">
                   <p className="font-medium mb-1">One-Time Access</p>
-                  <p className="text-blue-700">
+                  <p className="text-blue-700 dark:text-blue-300">
                     Your secret will be permanently destroyed the moment someone
                     opens the link, even if it hasn't reached the expiry time.
                   </p>
@@ -140,7 +140,7 @@ export function LandingSecretForm() {
                   <Button
                     onClick={handleCreateSecret}
                     disabled={!isFormValid || isPending}
-                    className="w-full h-12 text-lg font-semibold bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:text-slate-500 transition-all duration-200 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
+                    className="w-full h-12 text-lg font-semibold bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:text-slate-500 dark:disabled:text-slate-400 transition-all duration-200 transform hover:scale-[1.02] shadow-md hover:shadow-lg text-white"
                   >
                     {isPending ? (
                       <>
@@ -164,7 +164,7 @@ export function LandingSecretForm() {
             </Tooltip>
           </CardContent>
 
-          <CardFooter className="justify-center pt-3 pb-5 text-slate-500">
+          <CardFooter className="justify-center pt-3 pb-5 text-slate-500 dark:text-slate-400">
             <Shield className="size-3 mr-1" />
             <p className="text-sm">
               Your whim is encrypted • OTP protected • One-time access
@@ -192,19 +192,19 @@ export function LandingSecretForm() {
             </AlertDialogHeader>
 
             <div className="my-4">
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 max-h-32 overflow-y-auto">
-                <p className="text-sm text-slate-800 whitespace-pre-wrap break-words">
+              <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg p-4 max-h-32 overflow-y-auto">
+                <p className="text-sm text-slate-800 dark:text-slate-200 whitespace-pre-wrap break-words">
                   {message}
                 </p>
               </div>
             </div>
 
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 mb-4">
               <div className="flex items-start gap-2">
-                <AlertTriangle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-red-800">
+                <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-red-800 dark:text-red-200">
                   <p className="font-medium mb-1">⚠️ Important Warning</p>
-                  <p className="text-red-700">
+                  <p className="text-red-700 dark:text-red-300">
                     Once created, this secret will be destroyed forever after
                     the first person opens the link. Make sure you really want
                     to share this information.
@@ -217,7 +217,7 @@ export function LandingSecretForm() {
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleConfirmCreate}
-                className="bg-indigo-600 hover:bg-indigo-700"
+                className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white"
               >
                 Yes, Create Whim
               </AlertDialogAction>
@@ -242,11 +242,11 @@ export function LandingSecretForm() {
             <div className="space-y-4 mt-4">
               {/* OTP Section */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   One-Time Password (OTP)
                 </label>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 p-3 bg-slate-50 border border-slate-200 rounded-md font-mono text-lg font-bold text-center tracking-wider">
+                  <div className="flex-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-md font-mono text-lg font-bold text-center tracking-wider text-slate-900 dark:text-slate-100">
                     {whimResult?.otp}
                   </div>
                   <Button
@@ -258,24 +258,24 @@ export function LandingSecretForm() {
                     className="px-3"
                   >
                     {copiedStates.otp ? (
-                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
                   </Button>
                 </div>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   The recipient will need this OTP to access the secret.
                 </p>
               </div>
 
               {/* URL Section */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   Share URL
                 </label>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 p-3 bg-slate-50 border border-slate-200 rounded-md font-mono text-sm break-all">
+                  <div className="flex-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-md font-mono text-sm break-all text-slate-900 dark:text-slate-100">
                     {whimUrl}
                   </div>
                   <Button
@@ -285,24 +285,24 @@ export function LandingSecretForm() {
                     className="px-3"
                   >
                     {copiedStates.url ? (
-                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
                   </Button>
                 </div>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Share this URL with the intended recipient.
                 </p>
               </div>
 
               {/* Warning */}
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3">
                 <div className="flex items-start gap-2">
-                  <Eye className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                  <div className="text-sm text-amber-800">
+                  <Eye className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-amber-800 dark:text-amber-200">
                     <p className="font-medium mb-1">Important</p>
-                    <p className="text-amber-700">
+                    <p className="text-amber-700 dark:text-amber-300">
                       The secret will be permanently destroyed after the first
                       access or when the link expires. Make sure to share both
                       the URL and OTP securely.
@@ -315,7 +315,7 @@ export function LandingSecretForm() {
               <div className="flex justify-center pt-2">
                 <Button
                   onClick={handleDialogClose}
-                  className="bg-indigo-600 hover:bg-indigo-700"
+                  className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white"
                 >
                   Create Another
                 </Button>

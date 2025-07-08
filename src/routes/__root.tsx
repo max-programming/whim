@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
 import appCss from "~/styles/app.css?url";
+import { seo } from "~/lib/seo";
 
 export const Route = wrapCreateRootRouteWithSentry(
   createRootRouteWithContext<{
@@ -24,14 +25,13 @@ export const Route = wrapCreateRootRouteWithSentry(
         name: "viewport",
         content: "width=device-width, initial-scale=1",
       },
-      {
+      ...seo({
         title: "Whim - The Secret Sharing App",
-      },
-      {
-        name: "description",
-        content:
+        description:
           "Whim is a secret sharing app that allows you to share secret messages. The messages are encrypted and are vanished after being read.",
-      },
+        keywords:
+          "secret sharing, secret messages, ephemeral messages, ephemeral sharing, ephemeral messaging, ephemeral sharing app, ephemeral messaging app, one time messages, one time secret sharing, one time secret messaging, one time secret sharing app, one time secret messaging app",
+      }),
     ],
     links: [
       {
@@ -39,13 +39,6 @@ export const Route = wrapCreateRootRouteWithSentry(
         href: appCss,
       },
     ],
-    // scripts: [
-    //   {
-    //     defer: true,
-    //     src: import.meta.env.VITE_ANALYTICS_SCRIPT,
-    //     "data-website-id": import.meta.env.VITE_ANALYTICS_WEBSITE_ID,
-    //   },
-    // ],
   }),
   component: RootComponent,
   notFoundComponent: DefaultGlobalNotFound,

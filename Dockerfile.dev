@@ -1,0 +1,21 @@
+FROM oven/bun
+
+# set the working directory
+WORKDIR /app
+
+# copy package json and lockfile to the container
+COPY package.json bun.lock ./
+
+# install dependencies (including dev dependencies)
+RUN bun install
+
+# copy the rest of the application code
+# Note: In development, this will be overridden by volume mount
+COPY . .
+
+# expose the port
+EXPOSE 3000
+
+# run migrations and start the development server
+# This command can be overridden in docker-compose.dev.yml
+CMD ["sh", "-c", "bun run db:migrate && bun run dev"] 

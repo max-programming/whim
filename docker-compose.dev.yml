@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: whim-app-dev
+    restart: unless-stopped
+    volumes:
+      - .:/app # Mount entire project for live reload
+      - /app/node_modules # Prevent overwriting node_modules
+      - ./db:/app/db # Database volume
+    env_file:
+      - .env
+    ports:
+      - 3000:3000 # Direct port exposure for development
+    environment:
+      - NODE_ENV=development
+    command: bun run dev # Use development command

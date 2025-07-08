@@ -54,7 +54,7 @@ export function LandingHero() {
               <Clock className="w-4 h-4 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
               <div>
                 <div className="font-medium text-xs text-slate-900 dark:text-slate-100">
-                  Timed
+                  Self-destruct
                 </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">
                   Auto-delete
@@ -73,7 +73,7 @@ export function LandingHero() {
                   Protected
                 </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">
-                  Optional pwd
+                  One-time password required
                 </div>
               </div>
             </div>

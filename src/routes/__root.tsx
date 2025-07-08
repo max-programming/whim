@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import type { QueryClient } from "@tanstack/react-query";
+import { useSuspenseQuery, type QueryClient } from "@tanstack/react-query";
 import {
   Outlet,
   HeadContent,
@@ -10,8 +10,8 @@ import {
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/lib/seo";
-import { ThemeProvider, useTheme } from "~/components/theme-provider";
 import { ThemeToggle } from "~/components/theme-toggle";
+import { Footer } from "~/components/footer";
 import { themeQuery } from "~/lib/queries";
 
 export const Route = wrapCreateRootRouteWithSentry(
@@ -52,16 +52,14 @@ export const Route = wrapCreateRootRouteWithSentry(
 
 function RootComponent() {
   return (
-    <ThemeProvider>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
-    </ThemeProvider>
+    <RootDocument>
+      <Outlet />
+    </RootDocument>
   );
 }
 
 function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
-  const { theme } = useTheme();
+  const { data: theme } = useSuspenseQuery(themeQuery);
 
   return (
     <html className={theme} suppressHydrationWarning>
@@ -76,8 +74,10 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
             ></script>
           )}
       </head>
-      <body>
-        {children}
+      <body className="min-h-screen flex flex-col">
+        <main className="flex-1 flex flex-col">{children}</main>
+
+        <Footer />
 
         {/* Theme Toggle - Fixed position in top-right corner */}
         <div className="fixed top-4 right-4 z-50">

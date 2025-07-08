@@ -77,7 +77,7 @@ function OtpEntry({ whimId, otp, onOtpChange, onSubmit }: OtpEntryProps) {
   const isComplete = otp.length === 4;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 flex items-center justify-center p-4">
+    <div className="flex-1 bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -185,7 +185,7 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 flex items-center justify-center">
+      <div className="flex-1 bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin w-8 h-8 border-4 border-indigo-600 dark:border-indigo-400 border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-slate-600 dark:text-slate-300">
@@ -198,7 +198,7 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950 dark:to-pink-950 flex items-center justify-center p-4">
+      <div className="flex-1 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-950 dark:to-pink-950 flex items-center justify-center p-4">
         <Card className="w-full max-w-md border-2 border-red-200 dark:border-red-800">
           <CardContent className="text-center p-8">
             <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -224,7 +224,7 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-4">
+    <div className="flex-1 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-4">
       <div className="max-w-4xl mx-auto">
         {/* Success Header */}
         <div className="text-center mb-8 pt-8">

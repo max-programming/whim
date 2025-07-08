@@ -10,6 +10,9 @@ import {
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/lib/seo";
+import { ThemeProvider, useTheme } from "~/components/theme-provider";
+import { ThemeToggle } from "~/components/theme-toggle";
+import { themeQuery } from "~/lib/queries";
 
 export const Route = wrapCreateRootRouteWithSentry(
   createRootRouteWithContext<{
@@ -40,31 +43,47 @@ export const Route = wrapCreateRootRouteWithSentry(
       },
     ],
   }),
+  loader: ({ context }) => {
+    context.queryClient.ensureQueryData(themeQuery);
+  },
   component: RootComponent,
   notFoundComponent: DefaultGlobalNotFound,
 });
 
 function RootComponent() {
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
+    <ThemeProvider>
+      <RootDocument>
+        <Outlet />
+      </RootDocument>
+    </ThemeProvider>
   );
 }
 
 function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
+  const { theme } = useTheme();
+
   return (
-    <html>
+    <html className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
-        <script
-          defer
-          src={import.meta.env.VITE_ANALYTICS_SCRIPT}
-          data-website-id={import.meta.env.VITE_ANALYTICS_WEBSITE_ID}
-        ></script>
+        {import.meta.env.VITE_ANALYTICS_SCRIPT &&
+          import.meta.env.VITE_ANALYTICS_WEBSITE_ID && (
+            <script
+              defer
+              src={import.meta.env.VITE_ANALYTICS_SCRIPT}
+              data-website-id={import.meta.env.VITE_ANALYTICS_WEBSITE_ID}
+            ></script>
+          )}
       </head>
       <body>
         {children}
+
+        {/* Theme Toggle - Fixed position in top-right corner */}
+        <div className="fixed top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
+
         <Scripts />
       </body>
     </html>

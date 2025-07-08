@@ -64,6 +64,11 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
     <html>
       <head>
         <HeadContent />
+        <script
+          defer
+          src={import.meta.env.VITE_ANALYTICS_SCRIPT}
+          data-website-id={import.meta.env.VITE_ANALYTICS_WEBSITE_ID}
+        ></script>
       </head>
       <body>
         {children}

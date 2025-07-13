@@ -1,9 +1,17 @@
+const ITERATIONS = 100000;
+const SALT_LENGTH = 16;
+const IV_LENGTH = 12;
+const KEY_LENGTH = 256;
+const KEY_ALGORITHM = "PBKDF2";
+const CIPHER_ALGORITHM = "AES-GCM";
+const HASH_ALGORITHM = "SHA-256";
+
 export async function encryptWhim(
   message: string,
   otp: string
 ): Promise<EncryptedWhim> {
   const encoder = new TextEncoder();
-  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -21,16 +29,16 @@ export async function encryptWhim(
       hash: "SHA-256",
     },
     key,
-    { name: "AES-GCM", length: 256 },
+    { name: CIPHER_ALGORITHM, length: KEY_LENGTH },
     false,
     ["encrypt"]
   );
 
-  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH));
 
   const encryptedData = await crypto.subtle.encrypt(
     {
-      name: "AES-GCM",
+      name: CIPHER_ALGORITHM,
       iv,
     },
     derivedKey,
@@ -54,27 +62,27 @@ export async function decryptWhim(
   const key = await crypto.subtle.importKey(
     "raw",
     encoder.encode(otp),
-    { name: "PBKDF2" },
+    { name: KEY_ALGORITHM },
     false,
     ["deriveKey"]
   );
 
   const derivedKey = await crypto.subtle.deriveKey(
     {
-      name: "PBKDF2",
+      name: KEY_ALGORITHM,
       salt: encryptedWhim.salt,
-      iterations: 100000,
-      hash: "SHA-256",
+      iterations: ITERATIONS,
+      hash: HASH_ALGORITHM,
     },
     key,
-    { name: "AES-GCM", length: 256 },
+    { name: CIPHER_ALGORITHM, length: KEY_LENGTH },
     false,
     ["decrypt"]
   );
 
   const decryptedData = await crypto.subtle.decrypt(
     {
-      name: "AES-GCM",
+      name: CIPHER_ALGORITHM,
       iv: encryptedWhim.iv,
     },
     derivedKey,

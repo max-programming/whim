@@ -223,6 +223,8 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
     );
   }
 
+  const isDeletionSuccess = data?.deletionFailed === false;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-4">
       <div className="max-w-4xl mx-auto">
@@ -236,8 +238,9 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
             Your Secret Message
           </h1>
           <p className="text-slate-600 dark:text-slate-300">
-            This message has been permanently destroyed and cannot be accessed
-            again
+            {isDeletionSuccess
+              ? "This message has been permanently destroyed and cannot be accessed again"
+              : "The secret was decrypted but the deletion may have failed. Refresh the page to try again."}
           </p>
         </div>
 
@@ -248,7 +251,10 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
               Secret Content
             </CardTitle>
             <CardDescription className="text-green-600 dark:text-green-400">
-              Whim ID: {whimId} • Accessed once • Now destroyed
+              Whim ID: {whimId} • Accessed once •{" "}
+              {isDeletionSuccess
+                ? "Now destroyed"
+                : "Deletion failed, try again"}
             </CardDescription>
             <CardAction>
               <Button
@@ -279,16 +285,21 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
         <Card className="border-2 border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
           <CardContent>
             <div className="flex items-start gap-3">
-              <Zap className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              {isDeletionSuccess ? (
+                <Zap className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              ) : (
+                <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              )}
               <div>
                 <h3 className="font-semibold text-red-900 dark:text-red-100 mb-1">
-                  🔥 Secret Destroyed
+                  {isDeletionSuccess
+                    ? "🔥 Secret Destroyed"
+                    : "🔴 Secret Deletion Failed"}
                 </h3>
                 <p className="text-red-800 dark:text-red-300 text-sm leading-relaxed">
-                  This secret has been permanently deleted from our servers and
-                  cannot be recovered. The encryption keys have been destroyed,
-                  ensuring complete privacy and security. If you need to share
-                  another secret, create a new whim.
+                  {isDeletionSuccess
+                    ? "This secret has been permanently deleted from our servers and cannot be recovered. The encryption keys have been destroyed, ensuring complete privacy and security. If you need to share another secret, create a new whim."
+                    : "The secret was decrypted but the deletion may have failed. Refresh the page to try again."}
                 </p>
               </div>
             </div>

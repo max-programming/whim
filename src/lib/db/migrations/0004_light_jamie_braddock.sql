@@ -1,0 +1,1 @@
+ALTER TABLE `whims` DROP COLUMN `auth_tag`;

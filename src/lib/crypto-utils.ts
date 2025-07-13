@@ -1,49 +1,95 @@
-import crypto from "node:crypto";
-import type { Whim } from "./db/schema";
+export async function encryptWhim(
+  message: string,
+  otp: string
+): Promise<EncryptedWhim> {
+  const encoder = new TextEncoder();
+  const salt = crypto.getRandomValues(new Uint8Array(16));
 
-export function encryptWhim(message: string, otp: string): EncryptedWhim {
-  const salt = crypto.randomBytes(16);
-  const key = crypto.pbkdf2Sync(otp, salt, 100_000, 32, "sha256");
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(otp),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
 
-  const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
+  const derivedKey = await crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: 100000,
+      hash: "SHA-256",
+    },
+    key,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt"]
+  );
 
-  let encryptedMessageBuffer = cipher.update(message, "utf8");
-  encryptedMessageBuffer = Buffer.concat([
-    encryptedMessageBuffer,
-    cipher.final(),
-  ]);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+
+  const encryptedData = await crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv,
+    },
+    derivedKey,
+    encoder.encode(message)
+  );
 
   return {
-    encryptedMessage: encryptedMessageBuffer,
+    encryptedMessage: new Uint8Array(encryptedData),
     salt,
     iv,
-    authTag: cipher.getAuthTag(),
   };
 }
 
-export function decryptWhim(whim: Whim, otp: string): string {
-  const key = crypto.pbkdf2Sync(otp, whim.salt, 100_000, 32, "sha256");
-  const decipher = crypto.createDecipheriv("aes-256-gcm", key, whim.iv);
+export async function decryptWhim(
+  encryptedWhim: EncryptedWhim,
+  otp: string
+): Promise<string> {
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
 
-  decipher.setAuthTag(whim.authTag);
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(otp),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
 
-  let decryptedMessageBuffer = decipher.update(whim.encryptedMessage);
-  decryptedMessageBuffer = Buffer.concat([
-    decryptedMessageBuffer,
-    decipher.final(),
-  ]);
+  const derivedKey = await crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: encryptedWhim.salt,
+      iterations: 100000,
+      hash: "SHA-256",
+    },
+    key,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
 
-  return decryptedMessageBuffer.toString("utf8");
+  const decryptedData = await crypto.subtle.decrypt(
+    {
+      name: "AES-GCM",
+      iv: encryptedWhim.iv,
+    },
+    derivedKey,
+    encryptedWhim.encryptedMessage
+  );
+
+  return decoder.decode(decryptedData);
 }
 
 export function generateOtp(): string {
-  return crypto.randomInt(1000, 10000).toString();
+  return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
 type EncryptedWhim = {
-  encryptedMessage: Buffer;
-  salt: Buffer;
-  iv: Buffer;
-  authTag: Buffer;
+  encryptedMessage: Uint8Array;
+  salt: Uint8Array;
+  iv: Uint8Array;
 };

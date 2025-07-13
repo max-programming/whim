@@ -43,7 +43,7 @@ export function LandingHero() {
                   Encrypted
                 </div>
                 <div className="text-xs sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-1">
-                  Stored securely
+                  End-to-end encrypted
                 </div>
               </div>
             </div>

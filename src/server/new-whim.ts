@@ -3,27 +3,24 @@ import { nanoid } from "nanoid";
 import { z } from "zod";
 import { db } from "~/lib/db";
 import { stats, whims } from "~/lib/db/schema";
-import { encryptWhim, generateOtp } from "~/lib/crypto-utils";
 import { eq, sql } from "drizzle-orm";
 
 const newWhimSchema = z.object({
-  message: z.string().min(1),
+  encryptedMessage: z.array(z.number()),
+  salt: z.array(z.number()),
+  iv: z.array(z.number()),
 });
 
 export const newWhim = createServerFn({ method: "POST" })
   .validator(newWhimSchema)
-  .handler(async ({ data: { message } }) => {
+  .handler(async ({ data }) => {
     const whimId = nanoid(6);
-    const otp = generateOtp();
-
-    const { encryptedMessage, salt, iv, authTag } = encryptWhim(message, otp);
 
     await db.insert(whims).values({
       id: whimId,
-      encryptedMessage,
-      salt,
-      iv,
-      authTag,
+      encryptedMessage: Buffer.from(data.encryptedMessage),
+      salt: Buffer.from(data.salt),
+      iv: Buffer.from(data.iv),
     });
 
     await db
@@ -33,8 +30,5 @@ export const newWhim = createServerFn({ method: "POST" })
       })
       .where(eq(stats.id, 1));
 
-    return {
-      id: whimId,
-      otp,
-    };
+    return { id: whimId };
   });

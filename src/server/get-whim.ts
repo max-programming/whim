@@ -32,15 +32,11 @@ export const getWhim = createServerFn({ method: "GET" })
           .where(eq(attempts.whimId, id));
       }
     } else {
-      try {
-        await db.insert(attempts).values({
-          whimId: id,
-          failedAttempts: 0,
-          lastAttemptAt: now,
-        });
-      } catch (error) {
-        throw new Error("Whim does not exist");
-      }
+      await db.insert(attempts).values({
+        whimId: id,
+        failedAttempts: 0,
+        lastAttemptAt: now,
+      });
     }
 
     const [whim] = await db

@@ -75,11 +75,12 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
             ></script>
           )}
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen">
         <ScrollArea className="h-screen overflow-y-auto">
-          <main className="flex-1 flex flex-col">{children}</main>
-
-          <Footer />
+          <main className="min-h-screen flex flex-col">
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </main>
 
           {/* Theme Toggle - Fixed position in top-right corner */}
           <div className="fixed top-4 right-4 z-50">

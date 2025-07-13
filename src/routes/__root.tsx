@@ -13,6 +13,7 @@ import { seo } from "~/lib/seo";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { Footer } from "~/components/footer";
 import { themeQuery } from "~/lib/queries";
+import { ScrollArea } from "~/components/ui/scroll-area";
 
 export const Route = wrapCreateRootRouteWithSentry(
   createRootRouteWithContext<{
@@ -75,16 +76,18 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
           )}
       </head>
       <body className="min-h-screen flex flex-col">
-        <main className="flex-1 flex flex-col">{children}</main>
+        <ScrollArea className="h-screen overflow-y-auto">
+          <main className="flex-1 flex flex-col">{children}</main>
 
-        <Footer />
+          <Footer />
 
-        {/* Theme Toggle - Fixed position in top-right corner */}
-        <div className="fixed top-4 right-4 z-50">
-          <ThemeToggle />
-        </div>
+          {/* Theme Toggle - Fixed position in top-right corner */}
+          <div className="fixed top-4 right-4 z-50">
+            <ThemeToggle />
+          </div>
 
-        <Scripts />
+          <Scripts />
+        </ScrollArea>
       </body>
     </html>
   );

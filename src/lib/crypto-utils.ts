@@ -85,7 +85,8 @@ export async function decryptWhim(
 }
 
 export function generateOtp(): string {
-  return Math.floor(1000 + Math.random() * 9000).toString();
+  const randomValue = crypto.getRandomValues(new Uint32Array(1))[0];
+  return (randomValue % 9000 + 1000).toString();
 }
 
 type EncryptedWhim = {

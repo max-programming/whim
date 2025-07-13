@@ -223,7 +223,7 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
     );
   }
 
-  const isDeletionSuccess = data?.deletionFailed === false;
+  const isDeletionSuccess = !data?.deletionFailed;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-4">

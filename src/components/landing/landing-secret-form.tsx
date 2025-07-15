@@ -62,7 +62,7 @@ export function LandingSecretForm() {
     setIsConfirmDialogOpen(false);
 
     newWhim(
-      { data: { message } },
+      { message },
       {
         onSuccess: (data: { id: string; otp: string }) => {
           setWhimResult(data);

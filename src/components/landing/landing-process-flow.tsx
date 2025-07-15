@@ -48,8 +48,8 @@ export function LandingProcessFlow() {
                 </h3>
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-300">
-                Your secret is encrypted {/*end-to-end*/} and a unique URL +
-                one-time password (OTP) are generated.
+                Your secret is encrypted end-to-end and a unique URL + one-time
+                password (OTP) are generated.
               </p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export function LandingProcessFlow() {
           </div>
 
           {/* Security Note */}
-          {/* <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-3 mt-4">
+          <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-3 mt-4">
             <div className="flex items-start gap-2">
               <Clock className="w-4 h-4 text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0" />
               <div className="text-sm text-indigo-800 dark:text-indigo-200">
@@ -129,7 +129,7 @@ export function LandingProcessFlow() {
                 </p>
               </div>
             </div>
-          </div> */}
+          </div>
         </CardContent>
       </Card>
     </div>

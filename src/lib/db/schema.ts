@@ -7,7 +7,6 @@ export const whims = sqliteTable("whims", t => ({
   encryptedMessage: t.blob({ mode: "buffer" }).notNull(),
   salt: t.blob({ mode: "buffer" }).notNull(),
   iv: t.blob({ mode: "buffer" }).notNull(),
-  authTag: t.blob({ mode: "buffer" }).notNull(),
   createdAt: t.integer({ mode: "timestamp" }).default(sql`current_timestamp`),
 }));
 

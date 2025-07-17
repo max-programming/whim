@@ -31,7 +31,7 @@ export const Route = createFileRoute("/$whimId")({
 });
 
 function RouteComponent() {
-  const { whimId } = useParams({ from: "/$whimId" });
+  const { whimId } = Route.useParams();
   const [otp, setOtp] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
 

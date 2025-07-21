@@ -7,6 +7,7 @@ export const whims = sqliteTable("whims", t => ({
   encryptedMessage: t.blob({ mode: "buffer" }).notNull(),
   salt: t.blob({ mode: "buffer" }).notNull(),
   iv: t.blob({ mode: "buffer" }).notNull(),
+  maxAttempts: t.integer().default(1).notNull(),
   createdAt: t.integer({ mode: "timestamp" }).default(sql`current_timestamp`),
 }));
 
@@ -16,6 +17,7 @@ export const attempts = sqliteTable("attempts", t => ({
     .primaryKey()
     .references(() => whims.id, { onDelete: "cascade" }),
   failedAttempts: t.integer().default(0).notNull(),
+  successfulAttempts: t.integer().default(0).notNull(),
   lastAttemptAt: t
     .integer({ mode: "timestamp" })
     .default(sql`current_timestamp`)

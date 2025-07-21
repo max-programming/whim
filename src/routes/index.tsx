@@ -39,7 +39,7 @@ function LandingPage() {
             {/* First Row - Hero/Stats + Form */}
             <div className="grid grid-cols-12 gap-8">
               {/* Left Column - Hero and Stats */}
-              <div className="col-span-5 space-y-6">
+              <div className="col-span-5 flex flex-col justify-between">
                 <LandingHero />
                 <LandingStats />
               </div>

@@ -40,11 +40,13 @@ import {
   CardContent,
   CardFooter,
 } from "~/components/ui/card";
+
 import { useNewWhim } from "~/hooks/use-new-whim";
 
 export function LandingSecretForm() {
   const { mutate: newWhim, isPending } = useNewWhim();
   const [message, setMessage] = useState("");
+  const [maxAttempts, setMaxAttempts] = useState(1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [whimResult, setWhimResult] = useState<{
@@ -62,12 +64,13 @@ export function LandingSecretForm() {
     setIsConfirmDialogOpen(false);
 
     newWhim(
-      { message },
+      { message, maxAttempts },
       {
         onSuccess: (data: { id: string; otp: string }) => {
           setWhimResult(data);
           setIsDialogOpen(true);
           setMessage(""); // Clear the form
+          setMaxAttempts(1); // Reset to default
         },
       }
     );
@@ -120,14 +123,50 @@ export function LandingSecretForm() {
               />
             </div>
 
+            {/* Max Attempts Selection */}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+                Access Limit
+              </label>
+              <div className="grid grid-cols-5 gap-2">
+                {[1, 2, 3, 5, 10].map(num => (
+                  <Button
+                    key={num}
+                    type="button"
+                    variant={maxAttempts === num ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setMaxAttempts(num)}
+                    disabled={isPending}
+                    className={`text-xs ${
+                      maxAttempts === num
+                        ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                        : "hover:bg-slate-50 dark:hover:bg-slate-700"
+                    }`}
+                  >
+                    {num}
+                  </Button>
+                ))}
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                Number of times this whim can be accessed before
+                self-destructing
+              </p>
+            </div>
+
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
               <div className="flex items-start gap-2">
                 <Eye className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-blue-800 dark:text-blue-200">
-                  <p className="font-medium mb-1">One-Time Access</p>
+                  <p className="font-medium mb-1">
+                    {maxAttempts === 1
+                      ? "One-Time Access"
+                      : `${maxAttempts}-Time Access`}
+                  </p>
                   <p className="text-blue-700 dark:text-blue-300">
-                    Your secret will be permanently destroyed the moment someone
-                    opens the link, even if it hasn't reached the expiry time.
+                    Your secret will be permanently destroyed after being
+                    accessed{" "}
+                    {maxAttempts === 1 ? "once" : `${maxAttempts} times`}, even
+                    if it hasn't reached the expiry time.
                   </p>
                 </div>
               </div>
@@ -164,10 +203,10 @@ export function LandingSecretForm() {
             </Tooltip>
           </CardContent>
 
-          <CardFooter className="justify-center pt-3 pb-5 text-slate-500 dark:text-slate-400">
+          <CardFooter className="justify-center -mb-2 -mt-3 text-slate-500 dark:text-slate-400">
             <Shield className="size-3 mr-1" />
             <p className="text-sm">
-              Your whim is encrypted • OTP protected • One-time access
+              Your whim is encrypted • OTP protected • Limited access
             </p>
           </CardFooter>
         </Card>
@@ -185,9 +224,9 @@ export function LandingSecretForm() {
               </AlertDialogTitle>
               <AlertDialogDescription className="text-left">
                 You're about to create a whim with the following message. This
-                secret will be encrypted and will{" "}
-                <strong>self-destruct immediately</strong> after being viewed
-                once.
+                secret will be encrypted and will <strong>self-destruct</strong>{" "}
+                after being accessed{" "}
+                {maxAttempts === 1 ? "once" : `${maxAttempts} times`}.
               </AlertDialogDescription>
             </AlertDialogHeader>
 

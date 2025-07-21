@@ -224,6 +224,8 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
   }
 
   const isDeletionSuccess = !data?.deletionFailed;
+  const hasRemainingAttempts =
+    data && !data.deleted && data.remainingAttempts > 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-4">
@@ -238,9 +240,13 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
             Your Secret Message
           </h1>
           <p className="text-slate-600 dark:text-slate-300">
-            {isDeletionSuccess
+            {isDeletionSuccess && data?.deleted
               ? "This message has been permanently destroyed and cannot be accessed again"
-              : "The secret was decrypted but the deletion may have failed. Refresh the page to try again."}
+              : hasRemainingAttempts
+                ? `This message can be accessed ${data.remainingAttempts} more time${
+                    data.remainingAttempts > 1 ? "s" : ""
+                  } before being destroyed`
+                : "The secret was decrypted but the deletion may have failed. Refresh the page to try again."}
           </p>
         </div>
 
@@ -251,10 +257,16 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
               Secret Content
             </CardTitle>
             <CardDescription className="text-green-600 dark:text-green-400">
-              Whim ID: {whimId} • Accessed once •{" "}
-              {isDeletionSuccess
+              Whim ID: {whimId} •{" "}
+              {data?.maxAttempts && data.maxAttempts > 1
+                ? `${data.maxAttempts - data.remainingAttempts} of ${data.maxAttempts} accesses used`
+                : "Accessed once"}{" "}
+              •{" "}
+              {isDeletionSuccess && data?.deleted
                 ? "Now destroyed"
-                : "Deletion failed, try again"}
+                : hasRemainingAttempts && data
+                  ? `${data.remainingAttempts} access${data.remainingAttempts > 1 ? "es" : ""} remaining`
+                  : "Deletion failed, try again"}
             </CardDescription>
             <CardAction>
               <Button
@@ -285,21 +297,31 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
         <Card className="border-2 border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
           <CardContent>
             <div className="flex items-start gap-3">
-              {isDeletionSuccess ? (
+              {isDeletionSuccess && data?.deleted ? (
                 <Zap className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              ) : hasRemainingAttempts ? (
+                <Eye className="w-5 h-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5" />
               ) : (
                 <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
               )}
               <div>
                 <h3 className="font-semibold text-red-900 dark:text-red-100 mb-1">
-                  {isDeletionSuccess
+                  {isDeletionSuccess && data?.deleted
                     ? "🔥 Secret Destroyed"
-                    : "🔴 Secret Deletion Failed"}
+                    : hasRemainingAttempts
+                      ? "⚠️ Secret Still Available"
+                      : "🔴 Secret Deletion Failed"}
                 </h3>
                 <p className="text-red-800 dark:text-red-300 text-sm leading-relaxed">
-                  {isDeletionSuccess
+                  {isDeletionSuccess && data?.deleted
                     ? "This secret has been permanently deleted from our servers and cannot be recovered. The encryption keys have been destroyed, ensuring complete privacy and security. If you need to share another secret, create a new whim."
-                    : "The secret was decrypted but the deletion may have failed. Refresh the page to try again."}
+                    : hasRemainingAttempts
+                      ? `This secret can still be accessed ${data?.remainingAttempts} more time${
+                          data?.remainingAttempts && data.remainingAttempts > 1
+                            ? "s"
+                            : ""
+                        } using the same OTP. It will be automatically destroyed after all attempts are used.`
+                      : "The secret was decrypted but the deletion may have failed. Refresh the page to try again."}
                 </p>
               </div>
             </div>

@@ -36,6 +36,13 @@
       "when": 1752431153903,
       "tag": "0004_light_jamie_braddock",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1753123453268,
+      "tag": "0005_groovy_hex",
+      "breakpoints": true
     }
   ]
 }

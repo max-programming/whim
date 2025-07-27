@@ -86,12 +86,12 @@ export function LandingProcessFlow() {
               <div className="flex items-center gap-2 mb-1">
                 <Eye className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                 <h3 className="font-semibold text-sm text-slate-900 dark:text-slate-100">
-                  One-Time Access
+                  Limited Access
                 </h3>
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-300">
                 The recipient opens the link, enters the OTP, and views your
-                secret once.
+                secret for the allowed number of times.
               </p>
             </div>
           </div>
@@ -111,8 +111,8 @@ export function LandingProcessFlow() {
                 </h3>
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-300">
-                The secret is permanently deleted from our servers immediately
-                after being viewed.
+                The secret is permanently deleted from our servers after all
+                allowed accesses are used.
               </p>
             </div>
           </div>

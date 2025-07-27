@@ -9,6 +9,7 @@ const newWhimSchema = z.object({
   encryptedMessage: z.array(z.number()),
   salt: z.array(z.number()),
   iv: z.array(z.number()),
+  maxAttempts: z.number().min(1).max(10).default(1),
 });
 
 export const newWhim = createServerFn({ method: "POST" })
@@ -21,6 +22,7 @@ export const newWhim = createServerFn({ method: "POST" })
       encryptedMessage: Buffer.from(data.encryptedMessage),
       salt: Buffer.from(data.salt),
       iv: Buffer.from(data.iv),
+      maxAttempts: data.maxAttempts,
     });
 
     await db

@@ -3,7 +3,7 @@ import { Card, CardContent } from "~/components/ui/card";
 
 export function LandingHero() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-9">
       {/* Brand Badge with Whim */}
       <div className="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-full text-indigo-700 dark:text-indigo-300 font-medium text-sm border border-indigo-100 dark:border-indigo-800">
         <Flame className="w-4 h-4" />
@@ -61,7 +61,7 @@ export function LandingHero() {
                   Self-Destruct
                 </div>
                 <div className="text-xs sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-1">
-                  Deleted after reading
+                  Deleted after reading (once or multiple times)
                 </div>
               </div>
             </div>

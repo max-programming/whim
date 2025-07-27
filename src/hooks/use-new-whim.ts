@@ -4,7 +4,13 @@ import { newWhim } from "~/server/new-whim";
 
 export function useNewWhim() {
   return useMutation({
-    async mutationFn({ message }: { message: string }) {
+    async mutationFn({
+      message,
+      maxAttempts = 1,
+    }: {
+      message: string;
+      maxAttempts?: number;
+    }) {
       const otp = generateOtp();
       const encryptedWhim = await encryptWhim(message, otp);
 
@@ -13,6 +19,7 @@ export function useNewWhim() {
           encryptedMessage: Array.from(encryptedWhim.encryptedMessage),
           salt: Array.from(encryptedWhim.salt),
           iv: Array.from(encryptedWhim.iv),
+          maxAttempts,
         },
       });
 

@@ -31,7 +31,7 @@
     "@radix-ui/react-scroll-area": "^1.2.9",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.7",
-    "@sentry/tanstackstart-react": "^10.0.0",
+    "@sentry/tanstackstart-react": "^10.1.0",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-query": "^5.84.1",
     "@tanstack/react-router": "^1.130.12",

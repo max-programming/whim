@@ -5,8 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "bunx --bun vite dev",
-    "build": "vite build",
+    "build": "bun lint && bunx --bun vite build",
     "start": "bun run .output/server/index.mjs",
+    "lint": "bunx --bun eslint .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"

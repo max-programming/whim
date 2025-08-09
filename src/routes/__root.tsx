@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import {  useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   DefaultGlobalNotFound,
   HeadContent,
@@ -8,7 +8,7 @@ import {
   createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
-import type {QueryClient} from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/lib/seo";
 import { ThemeToggle } from "~/components/theme-toggle";
@@ -42,6 +42,25 @@ export const Route = wrapCreateRootRouteWithSentry(
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "/favicon-16x16.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png",
+      },
+      {
+        rel: "manifest",
+        href: "/site.webmanifest",
       },
     ],
   }),

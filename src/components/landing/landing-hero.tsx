@@ -1,4 +1,4 @@
-import { Clock, Flame, Lock, Shield } from "lucide-react";
+import { Clock, Lock, Shield } from "lucide-react";
 import { Card, CardContent } from "~/components/ui/card";
 
 export function LandingHero() {
@@ -6,7 +6,7 @@ export function LandingHero() {
     <div className="space-y-9">
       {/* Brand Badge with Whim */}
       <div className="inline-flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-full text-indigo-700 dark:text-indigo-300 font-medium text-sm border border-indigo-100 dark:border-indigo-800">
-        <Flame className="w-4 h-4" />
+        <img src="/favicon-32x32.png" alt="Whim" className="w-6 h-6" />
         Whim
       </div>
 

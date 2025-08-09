@@ -3,6 +3,9 @@ name: CI CD - Whim
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
   build:
@@ -22,10 +25,141 @@ jobs:
       - name: Build
         run: bun run build
 
+  cleanup-preview:
+    name: Cleanup Preview
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+
+    steps:
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.VPS_KEY }}
+
+      - name: Remove Preview Deployment
+        run: |
+          PR_NUMBER=${{ github.event.number }}
+
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            # Stop and remove the preview container
+            docker stop whim-app-pr-${PR_NUMBER} 2>/dev/null || true
+            docker rm whim-app-pr-${PR_NUMBER} 2>/dev/null || true
+            
+            # Remove the preview directory
+            rm -rf ~/whim-previews/pr-${PR_NUMBER}
+            
+            # Remove Caddy config
+            rm -f ~/caddy-configs/pr-${PR_NUMBER}.conf
+            
+            # Reload Caddy to remove the subdomain
+            cd ~/whim
+            docker compose restart caddy
+          EOF
+
+      - name: Comment Cleanup
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.issue.number;
+
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🧹 **Preview deployment cleaned up!**\n\n_The preview environment for this PR has been removed._`
+            });
+
+  preview:
+    name: Deploy Preview
+    runs-on: ubuntu-22.04
+    needs: build
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+
+    steps:
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.VPS_KEY }}
+
+      - name: Deploy Preview
+        run: |
+          PR_NUMBER=${{ github.event.number }}
+          BRANCH_NAME="${{ github.head_ref }}"
+
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
+            # Create preview directory
+            mkdir -p ~/whim-previews/pr-${PR_NUMBER}
+            cd ~/whim-previews/pr-${PR_NUMBER}
+            
+            # Clone or update the repository
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/${{ github.repository }}.git .
+            fi
+            
+            # Checkout the PR branch
+            git fetch origin
+            git checkout ${BRANCH_NAME}
+            git pull origin ${BRANCH_NAME}
+            
+            # Copy environment file from main app
+            cp ~/whim/.env .env
+            
+            # Build and start the preview with custom port
+            PREVIEW_PORT=\$((3000 + ${PR_NUMBER}))
+            
+            # Update docker-compose for preview
+            cat > docker-compose.preview.yml << 'COMPOSE_EOF'
+          services:
+            app:
+              build: .
+              container_name: whim-app-pr-${PR_NUMBER}
+              restart: unless-stopped
+              volumes:
+                - ./db:/app/db
+              env_file:
+                - .env
+              ports:
+                - \${PREVIEW_PORT}:3000
+              networks:
+                - whimnet-pr-${PR_NUMBER}
+
+          networks:
+            whimnet-pr-${PR_NUMBER}:
+              driver: bridge
+          COMPOSE_EOF
+            
+            # Deploy the preview
+            PREVIEW_PORT=\${PREVIEW_PORT} docker compose -f docker-compose.preview.yml up --build -d
+            
+            # Update Caddy configuration for the new subdomain
+            echo "pr-${PR_NUMBER}.whim.day {
+              reverse_proxy localhost:\${PREVIEW_PORT}
+            }" > ~/caddy-configs/pr-${PR_NUMBER}.conf
+            
+            # Reload Caddy to pick up new config
+            cd ~/whim
+            docker compose restart caddy
+          EOF
+
+      - name: Comment Preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.issue.number;
+            const previewUrl = `https://pr-${prNumber}.whim.day`;
+
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🚀 **Preview deployed!**\n\n📱 Preview URL: ${previewUrl}\n\n_This preview will be automatically updated on new commits to this PR._`
+            });
+
   deploy:
     name: CD - Whim Deploy
     runs-on: ubuntu-22.04
     needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Setup SSH key

@@ -5,3 +5,6 @@ whim.day {
 insights.whim.day {
   reverse_proxy umami:3000
 }
+
+# Import preview configurations
+import /etc/caddy/configs/*.conf

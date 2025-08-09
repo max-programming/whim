@@ -6,13 +6,13 @@ on:
 
 jobs:
   build:
-    name: CI - Whim Build
+    name: CI - Whim Lint & Build
     runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
 
@@ -32,7 +32,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.VPS_KEY }}
-      
+
       - name: SSH and Deploy
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'

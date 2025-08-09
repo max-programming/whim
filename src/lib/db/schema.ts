@@ -1,7 +1,6 @@
 import { sql } from "drizzle-orm";
 import { check, sqliteTable } from "drizzle-orm/sqlite-core";
 
-export type Whim = typeof whims.$inferSelect;
 export const whims = sqliteTable("whims", t => ({
   id: t.text().primaryKey(),
   encryptedMessage: t.blob({ mode: "buffer" }).notNull(),
@@ -36,3 +35,7 @@ export const stats = sqliteTable(
   }),
   table => [check("single_row_check", sql`${table.id} = 1`)]
 );
+
+export type Attempts = typeof attempts.$inferSelect;
+export type Stats = typeof stats.$inferSelect;
+export type Whim = typeof whims.$inferSelect;

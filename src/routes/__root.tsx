@@ -1,13 +1,14 @@
 /// <reference types="vite/client" />
-import { useSuspenseQuery, type QueryClient } from "@tanstack/react-query";
+import {  useSuspenseQuery } from "@tanstack/react-query";
 import {
-  Outlet,
-  HeadContent,
-  createRootRouteWithContext,
   DefaultGlobalNotFound,
+  HeadContent,
+  Outlet,
   Scripts,
+  createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { wrapCreateRootRouteWithSentry } from "@sentry/tanstackstart-react";
+import type {QueryClient} from "@tanstack/react-query";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/lib/seo";
 import { ThemeToggle } from "~/components/theme-toggle";

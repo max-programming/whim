@@ -1,4 +1,4 @@
-import { Shield, Clock, Lock, Flame } from "lucide-react";
+import { Clock, Flame, Lock, Shield } from "lucide-react";
 import { Card, CardContent } from "~/components/ui/card";
 
 export function LandingHero() {

@@ -1,9 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { nanoid } from "nanoid";
 import { z } from "zod";
+import { eq, sql } from "drizzle-orm";
 import { db } from "~/lib/db";
 import { stats, whims } from "~/lib/db/schema";
-import { eq, sql } from "drizzle-orm";
 
 const newWhimSchema = z.object({
   encryptedMessage: z.array(z.number()),

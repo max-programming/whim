@@ -1,23 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useParams } from "@tanstack/react-router";
 import {
-  Shield,
-  Key,
-  Zap,
-  Eye,
-  Copy,
-  CheckCircle,
   AlertTriangle,
+  CheckCircle,
+  Copy,
+  Eye,
+  Key,
+  Shield,
+  Zap,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardAction,
 } from "~/components/ui/card";
 import {
   InputOTP,

@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
   LandingHero,
-  LandingStats,
   LandingProcessFlow,
   LandingSecretForm,
+  LandingStats,
 } from "~/components/landing";
 import { statsQuery } from "~/lib/queries";
 

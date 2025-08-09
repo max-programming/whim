@@ -1,20 +1,20 @@
 import { useState } from "react";
 import {
+  AlertTriangle,
+  CheckCircle,
+  Copy,
+  Eye,
   Shield,
   Zap,
-  Eye,
-  Copy,
-  CheckCircle,
-  AlertTriangle,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "~/components/ui/dialog";
 import {
   AlertDialog,
@@ -34,11 +34,11 @@ import {
 } from "~/components/ui/tooltip";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "~/components/ui/card";
 
 import { useNewWhim } from "~/hooks/use-new-whim";

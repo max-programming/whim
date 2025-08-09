@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { eq, getTableColumns, sql } from "drizzle-orm";
 import { db } from "~/lib/db";
 import { attempts, stats, whims } from "~/lib/db/schema";
-import { eq, getTableColumns, sql } from "drizzle-orm";
 
 const recordSuccessfulAccessSchema = z.object({
   id: z.string(),
@@ -13,7 +13,7 @@ export const recordSuccessfulAccess = createServerFn({ method: "POST" })
   .handler(async ({ data: { id } }) => {
     return await db.transaction(
       async tx => {
-        const [result] = await tx
+        const results = await tx
           .select({
             whim: getTableColumns(whims),
             attempt: getTableColumns(attempts),
@@ -22,6 +22,8 @@ export const recordSuccessfulAccess = createServerFn({ method: "POST" })
           .leftJoin(attempts, eq(attempts.whimId, whims.id))
           .where(eq(whims.id, id))
           .limit(1);
+
+        const result = results[0] as (typeof results)[0] | undefined;
 
         if (!result) {
           throw new Error("Whim does not exist");

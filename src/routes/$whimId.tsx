@@ -263,7 +263,7 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
               •{" "}
               {isDeletionSuccess && data?.deleted
                 ? "Now destroyed"
-                : hasRemainingAttempts && data
+                : hasRemainingAttempts
                   ? `${data.remainingAttempts} access${data.remainingAttempts > 1 ? "es" : ""} remaining`
                   : "Deletion failed, try again"}
             </CardDescription>
@@ -315,10 +315,8 @@ function WhimDisplay({ whimId, otp }: WhimDisplayProps) {
                   {isDeletionSuccess && data?.deleted
                     ? "This secret has been permanently deleted from our servers and cannot be recovered. The encryption keys have been destroyed, ensuring complete privacy and security. If you need to share another secret, create a new whim."
                     : hasRemainingAttempts
-                      ? `This secret can still be accessed ${data?.remainingAttempts} more time${
-                          data?.remainingAttempts && data.remainingAttempts > 1
-                            ? "s"
-                            : ""
+                      ? `This secret can still be accessed ${data.remainingAttempts} more time${
+                          data.remainingAttempts > 1 ? "s" : ""
                         } using the same OTP. It will be automatically destroyed after all attempts are used.`
                       : "The secret was decrypted but the deletion may have failed. Refresh the page to try again."}
                 </p>

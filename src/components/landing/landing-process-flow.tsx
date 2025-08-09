@@ -1,4 +1,4 @@
-import { Edit3, Shield, Link2, Eye, Clock, Zap } from "lucide-react";
+import { Clock, Edit3, Eye, Link2, Shield, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 export function LandingProcessFlow() {

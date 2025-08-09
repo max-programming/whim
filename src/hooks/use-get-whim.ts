@@ -6,12 +6,12 @@ import { decryptWhim } from "~/lib/crypto-utils";
 
 export function useGetWhim(id: string, otp: string) {
   return useQuery({
-    queryKey: ["whim", id],
-    async queryFn({ queryKey: [, id] }) {
+    queryKey: ["whim", id] as const,
+    async queryFn({ queryKey: [, whimId] }) {
       let encryptedWhim;
 
       try {
-        encryptedWhim = await getWhim({ data: { id } });
+        encryptedWhim = await getWhim({ data: { id: whimId } });
       } catch (error) {
         if (
           error instanceof Error &&
@@ -33,7 +33,7 @@ export function useGetWhim(id: string, otp: string) {
         );
 
         try {
-          await deleteWhim({ data: { id } });
+          await deleteWhim({ data: { id: whimId } });
           return { message: decryptedMessage, deletionFailed: false };
         } catch (deleteError) {
           console.error("Failed to delete whim:", deleteError);
@@ -47,7 +47,7 @@ export function useGetWhim(id: string, otp: string) {
       } catch (decryptError) {
         if (isDecryptionError(decryptError)) {
           try {
-            await incrementFailedAttempts({ data: { id } });
+            await incrementFailedAttempts({ data: { id: whimId } });
           } catch (incrementError) {
             console.error(
               "Failed to increment failed attempts:",

@@ -1,8 +1,9 @@
-import { Button } from "./ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { Button } from "./ui/button";
+import type { Theme } from "~/server/theme";
 import { themeQuery } from "~/lib/queries";
-import { setThemeServerFn, type Theme } from "~/server/theme";
+import { setThemeServerFn } from "~/server/theme";
 
 export function ThemeToggle() {
   const queryClient = useQueryClient();

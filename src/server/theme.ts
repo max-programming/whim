@@ -5,7 +5,7 @@ export type Theme = "light" | "dark";
 
 const storageKey = "ui-theme";
 
-export const getThemeServerFn = createServerFn().handler(async () => {
+export const getThemeServerFn = createServerFn().handler(() => {
   return (getCookie(storageKey) || "dark") as Theme;
 });
 
@@ -16,6 +16,6 @@ export const setThemeServerFn = createServerFn({ method: "POST" })
     }
     return data as NonNullable<Theme>;
   })
-  .handler(async ({ data }) => {
+  .handler(({ data }) => {
     setCookie(storageKey, data);
   });

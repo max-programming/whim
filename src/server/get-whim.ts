@@ -1,7 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { db } from "~/lib/db";
 import { eq } from "drizzle-orm";
+import type { Attempts, Whim } from "~/lib/db/schema";
+import { db } from "~/lib/db";
 import { attempts, whims } from "~/lib/db/schema";
 
 const getWhimSchema = z.object({
@@ -11,11 +12,11 @@ const getWhimSchema = z.object({
 export const getWhim = createServerFn({ method: "GET" })
   .validator(getWhimSchema)
   .handler(async ({ data: { id } }) => {
-    const [attempt] = await db
+    const [attempt] = (await db
       .select()
       .from(attempts)
       .where(eq(attempts.whimId, id))
-      .limit(1);
+      .limit(1)) as Array<Attempts | undefined>;
 
     const now = new Date();
     const oneHourAgo = new Date(now.getTime() - 1 * 60 * 60 * 1000);
@@ -39,11 +40,11 @@ export const getWhim = createServerFn({ method: "GET" })
       });
     }
 
-    const [whim] = await db
+    const [whim] = (await db
       .select()
       .from(whims)
       .where(eq(whims.id, id))
-      .limit(1);
+      .limit(1)) as Array<Whim | undefined>;
 
     if (!whim) {
       throw new Error("Whim does not exist");

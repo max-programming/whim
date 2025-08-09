@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { eq, sql } from "drizzle-orm";
 import { db } from "~/lib/db";
 import { attempts, stats, whims } from "~/lib/db/schema";
-import { eq, sql } from "drizzle-orm";
 
 const deleteWhimSchema = z.object({
   id: z.string(),

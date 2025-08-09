@@ -3,6 +3,8 @@ name: CI CD - Whim
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
@@ -26,6 +28,7 @@ jobs:
     name: CD - Whim Deploy
     runs-on: ubuntu-22.04
     needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Setup SSH key

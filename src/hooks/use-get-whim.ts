@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getWhim } from "~/server/get-whim";
-import { deleteWhim } from "~/server/delete-whim";
+import { recordSuccessfulAccess } from "~/server/record-successful-access";
 import { incrementFailedAttempts } from "~/server/increment-failed-attempts";
 import { decryptWhim } from "~/lib/crypto-utils";
 
@@ -33,15 +33,26 @@ export function useGetWhim(id: string, otp: string) {
         );
 
         try {
-          await deleteWhim({ data: { id: whimId } });
-          return { message: decryptedMessage, deletionFailed: false };
-        } catch (deleteError) {
-          console.error("Failed to delete whim:", deleteError);
+          const accessResult = await recordSuccessfulAccess({
+            data: { id: whimId },
+          });
+          return {
+            message: decryptedMessage,
+            deletionFailed: false,
+            deleted: accessResult.deleted,
+            remainingAttempts: accessResult.remainingAttempts,
+            maxAttempts: encryptedWhim.maxAttempts,
+          };
+        } catch (accessError) {
+          console.error("Failed to record successful access:", accessError);
 
           return {
             message: decryptedMessage,
             deletionFailed: true,
-            warning: "Secret was decrypted but may still exist on server",
+            deleted: false,
+            remainingAttempts: encryptedWhim.remainingAttempts,
+            maxAttempts: encryptedWhim.maxAttempts,
+            warning: "Secret was decrypted but access tracking failed",
           };
         }
       } catch (decryptError) {

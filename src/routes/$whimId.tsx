@@ -114,6 +114,7 @@ function OtpEntry({ whimId, otp, onOtpChange, onSubmit }: OtpEntryProps) {
                   value={otp}
                   onChange={onOtpChange}
                   onComplete={onOtpChange}
+                  autoFocus
                 >
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />

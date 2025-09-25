@@ -40,7 +40,7 @@
     "@tailwindcss/vite": "^4.1.13",
     "@tanstack/react-query": "^5.90.1",
     "@tanstack/react-router": "^1.131.50",
-    "@tanstack/react-router-with-query": "^1.130.17",
+    "@tanstack/react-router-ssr-query": "^1.132.6",
     "@tanstack/react-start": "^1.131.50",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

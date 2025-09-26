@@ -8,7 +8,7 @@ const HASH_ALGORITHM = "SHA-256";
 
 export async function encryptWhim(
   message: string,
-  otp: string
+  otp: string,
 ): Promise<EncryptedWhim> {
   const encoder = new TextEncoder();
   const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
@@ -16,22 +16,22 @@ export async function encryptWhim(
   const key = await crypto.subtle.importKey(
     "raw",
     encoder.encode(otp),
-    { name: "PBKDF2" },
+    { name: KEY_ALGORITHM },
     false,
-    ["deriveKey"]
+    ["deriveKey"],
   );
 
   const derivedKey = await crypto.subtle.deriveKey(
     {
-      name: "PBKDF2",
+      name: KEY_ALGORITHM,
       salt,
       iterations: 100000,
-      hash: "SHA-256",
+      hash: HASH_ALGORITHM,
     },
     key,
     { name: CIPHER_ALGORITHM, length: KEY_LENGTH },
     false,
-    ["encrypt"]
+    ["encrypt"],
   );
 
   const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH));
@@ -42,7 +42,7 @@ export async function encryptWhim(
       iv,
     },
     derivedKey,
-    encoder.encode(message)
+    encoder.encode(message),
   );
 
   return {
@@ -54,7 +54,7 @@ export async function encryptWhim(
 
 export async function decryptWhim(
   encryptedWhim: EncryptedWhim,
-  otp: string
+  otp: string,
 ): Promise<string> {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
@@ -64,29 +64,29 @@ export async function decryptWhim(
     encoder.encode(otp),
     { name: KEY_ALGORITHM },
     false,
-    ["deriveKey"]
+    ["deriveKey"],
   );
 
   const derivedKey = await crypto.subtle.deriveKey(
     {
       name: KEY_ALGORITHM,
-      salt: encryptedWhim.salt,
+      salt: new Uint8Array(encryptedWhim.salt),
       iterations: ITERATIONS,
       hash: HASH_ALGORITHM,
     },
     key,
     { name: CIPHER_ALGORITHM, length: KEY_LENGTH },
     false,
-    ["decrypt"]
+    ["decrypt"],
   );
 
   const decryptedData = await crypto.subtle.decrypt(
     {
       name: CIPHER_ALGORITHM,
-      iv: encryptedWhim.iv,
+      iv: new Uint8Array(encryptedWhim.iv),
     },
     derivedKey,
-    encryptedWhim.encryptedMessage
+    new Uint8Array(encryptedWhim.encryptedMessage),
   );
 
   return decoder.decode(decryptedData);
@@ -94,7 +94,7 @@ export async function decryptWhim(
 
 export function generateOtp(): string {
   const randomValue = crypto.getRandomValues(new Uint32Array(1))[0];
-  return (randomValue % 9000 + 1000).toString();
+  return ((randomValue % 9000) + 1000).toString();
 }
 
 type EncryptedWhim = {

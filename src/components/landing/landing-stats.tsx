@@ -1,40 +1,47 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Edit3, Zap } from "lucide-react";
-import { Card, CardContent } from "~/components/ui/card";
 import { statsQuery } from "~/lib/queries";
 
 export function LandingStats() {
   const { data: stats } = useSuspenseQuery(statsQuery);
 
   return (
-    <div className="grid grid-cols-2 gap-2 w-full">
-      <Card className="py-2 shadow-sm border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-        <CardContent className="px-3 py-0 text-center">
-          <div className="flex items-center justify-center gap-1 mb-0.5">
-            <Edit3 className="size-4 text-indigo-600 dark:text-indigo-400" />
-            <div className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              {stats.whimsCreated}
-            </div>
+    <div className="space-y-4">
+      <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+        Platform Statistics
+      </h3>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-1">
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-light text-slate-900 dark:text-white">
+              {stats.whimsCreated.toLocaleString()}
+            </span>
+            <Edit3 className="w-3 h-3 text-slate-400" />
           </div>
-          <div className="text-xs text-slate-600 dark:text-slate-300">
-            Whims Created
-          </div>
-        </CardContent>
-      </Card>
+          <p className="text-xs text-slate-500 dark:text-slate-500 capitalize">
+            Whims created
+          </p>
+        </div>
 
-      <Card className="py-2 shadow-sm border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-        <CardContent className="px-3 py-0 text-center">
-          <div className="flex items-center justify-center gap-1 mb-0.5">
-            <Zap className="size-4 text-red-500 dark:text-red-400" />
-            <div className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              {stats.secretsVanished}
-            </div>
+        <div className="space-y-1">
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-light text-slate-900 dark:text-white">
+              {stats.secretsVanished.toLocaleString()}
+            </span>
+            <Zap className="w-3 h-3 text-slate-400" />
           </div>
-          <div className="text-xs text-slate-600 dark:text-slate-300">
-            Secrets Vanished
-          </div>
-        </CardContent>
-      </Card>
+          <p className="text-xs text-slate-500 dark:text-slate-500 capitalize">
+            Whims vanished
+          </p>
+        </div>
+      </div>
+
+      <div className="pt-3 border-t border-slate-200 dark:border-slate-800">
+        <p className="text-xs text-slate-500 dark:text-slate-500">
+          Updated in real-time • Completely anonymous
+        </p>
+      </div>
     </div>
   );
 }

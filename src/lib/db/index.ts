@@ -1,8 +1,8 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { EnhancedQueryLogger } from "drizzle-query-logger";
+import { env } from "~/config/env";
 
-const dbUrl = process.env.DATABASE_URL!;
-export const db = drizzle(dbUrl, {
+export const db = drizzle(env.DATABASE_URL, {
   casing: "snake_case",
   logger: new EnhancedQueryLogger(),
 });

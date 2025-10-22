@@ -15,11 +15,12 @@ import { ThemeToggle } from "~/components/theme-toggle";
 import { Footer } from "~/components/footer";
 import { themeQuery } from "~/lib/queries";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import { env } from "~/config/env";
 
 export const Route = wrapCreateRootRouteWithSentry(
   createRootRouteWithContext<{
     queryClient: QueryClient;
-  }>()
+  }>(),
 )({
   head: () => ({
     meta: [
@@ -86,14 +87,13 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
     <html className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
-        {import.meta.env.VITE_ANALYTICS_SCRIPT &&
-          import.meta.env.VITE_ANALYTICS_WEBSITE_ID && (
-            <script
-              defer
-              src={import.meta.env.VITE_ANALYTICS_SCRIPT}
-              data-website-id={import.meta.env.VITE_ANALYTICS_WEBSITE_ID}
-            ></script>
-          )}
+        {env.VITE_ANALYTICS_SCRIPT && env.VITE_ANALYTICS_WEBSITE_ID && (
+          <script
+            defer
+            src={env.VITE_ANALYTICS_SCRIPT}
+            data-website-id={env.VITE_ANALYTICS_WEBSITE_ID}
+          ></script>
+        )}
       </head>
       <body className="min-h-screen">
         <ScrollArea className="h-screen overflow-y-auto">
